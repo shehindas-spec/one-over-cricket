@@ -1,0 +1,752 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:root { font-family: 'DM Sans', sans-serif; color: #edf4ef; background: #07120f; font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; background: radial-gradient(ellipse at 50% 0%, #17352a 0%, #0b1b15 38%, #07120f 75%); }
+button { font: inherit; }
+#app { min-height: 100vh; }
+.topbar { height: 68px; padding: 0 clamp(18px, 5vw, 76px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ffffff13; background: #06100dcc; }
+.brand { color: #f4f7f3; text-decoration: none; font: 700 19px 'Barlow Condensed', sans-serif; letter-spacing: 1.2px; display: flex; gap: 9px; align-items: center; }
+.brand b { color: #a9d56b; }
+.brand-mark { font-size: 21px; }
+.top-status { color: #a8b9ae; font-size: 10px; letter-spacing: 1.4px; display: flex; align-items: center; gap: 9px; }
+.live-dot, .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #9bd45c; display: inline-block; box-shadow: 0 0 10px #9bd45c88; }
+.version { border: 1px solid #ffffff25; padding: 5px 8px; border-radius: 4px; color: #d6e5d9; }
+.layout { width: min(1180px, calc(100% - 36px)); margin: 0 auto; }
+.intro { padding: 42px 0 25px; }
+.eyebrow, .mini-label, .bottom-label { color: #9acb68; font-size: 10px; letter-spacing: 2px; font-weight: 700; }
+h1 { margin: 8px 0 7px; font: 800 clamp(38px, 6vw, 62px)/.98 'Barlow Condensed', sans-serif; letter-spacing: -.4px; text-transform: uppercase; }
+h1 span { color: #a9d56b; }
+.intro p { margin: 0; color: #a8b8ae; max-width: 570px; font-size: 13px; line-height: 1.7; }
+.game-panel { border: 1px solid #ffffff1d; border-radius: 12px; overflow: hidden; background: #0b1913; box-shadow: 0 22px 70px #0006; }
+.game-toolbar { min-height: 70px; padding: 13px 18px; display: flex; justify-content: space-between; align-items: center; gap: 14px; border-bottom: 1px solid #ffffff14; }
+.match-label { display: grid; gap: 3px; }
+.match-label strong { font: 700 20px 'Barlow Condensed', sans-serif; letter-spacing: 1px; }
+.mini-label { font-size: 9px; color: #83998b; }
+.view-switch { display: flex; gap: 5px; padding: 4px; border-radius: 7px; background: #06100c; }
+.view-btn { border: 1px solid transparent; background: transparent; color: #9cad9f; padding: 9px 13px; border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: 700; }
+.view-btn.active { color: #10200f; background: #a9d56b; }
+#scene-wrap { height: clamp(330px, 52vw, 570px); min-height: 330px; position: relative; overflow: hidden; background: #17271d; }
+#scene { position: absolute; inset: 0; }
+#scene canvas { display: block; width: 100%; height: 100%; }
+.scene-hud { position: absolute; z-index: 2; top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; pointer-events: none; }
+.hud-pill { background: #07120fc9; border: 1px solid #ffffff25; border-radius: 5px; padding: 7px 10px; font-size: 9px; letter-spacing: 1px; color: #e1e9e2; display: inline-flex; align-items: center; gap: 8px; backdrop-filter: blur(8px); }
+.scene-help { position: absolute; z-index: 2; bottom: 13px; right: 15px; color: #e2e9e2; background: #07120fa8; padding: 7px 10px; border-radius: 4px; font-size: 9px; pointer-events: none; }
+.loading { position: absolute; z-index: 3; inset: 0; display: grid; place-items: center; color: #d9e5da; background: #102219; font-size: 12px; letter-spacing: 1px; transition: opacity .3s; }
+.loading.hidden { opacity: 0; pointer-events: none; }
+.bottom-bar { min-height: 65px; padding: 12px 18px; display: flex; align-items: center; gap: 28px; border-top: 1px solid #ffffff14; }
+.bottom-bar > div { display: grid; gap: 5px; }
+.bottom-label { color: #82988a; font-size: 8px; }
+.bottom-bar strong { font-size: 10px; letter-spacing: .8px; }
+.status-dot { width: 6px; height: 6px; margin-right: 5px; }
+.reset-btn { margin-left: auto; background: transparent; border: 1px solid #ffffff2a; border-radius: 5px; color: #d8e3db; padding: 9px 12px; cursor: pointer; font-size: 10px; }
+.reset-btn:hover { border-color: #a9d56b; color: #a9d56b; }
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 22px 0 30px; }
+.features article { display: flex; align-items: flex-start; gap: 12px; padding: 15px; border: 1px solid #ffffff15; border-radius: 8px; background: #ffffff05; }
+.feature-icon { color: #a9d56b; font: 700 19px 'Barlow Condensed', sans-serif; }
+.features strong { font-size: 11px; }
+.features p { color: #8fa195; font-size: 10px; line-height: 1.6; margin: 5px 0 0; }
+footer { border-top: 1px solid #ffffff12; padding: 17px; text-align: center; color: #708477; font-size: 9px; letter-spacing: 1.8px; }
+footer span { color: #a9d56b; padding: 0 5px; }
+@media (max-width: 650px) {
+  .topbar { height: 58px; }
+  .top-status { font-size: 8px; gap: 6px; }
+  .version { display: none; }
+  .intro { padding: 30px 0 20px; }
+  .game-toolbar { align-items: flex-start; flex-direction: column; }
+  .view-switch { width: 100%; }
+  .view-btn { flex: 1; padding: 10px 5px; }
+  #scene-wrap { height: 420px; }
+  .bottom-bar { gap: 12px; flex-wrap: wrap; }
+  .bottom-bar > div { flex: 1 1 120px; }
+  .reset-btn { margin-left: 0; }
+  .features { grid-template-columns: 1fr; gap: 8px; padding-top: 16px; }
+}
+
+
+/* Stage 2 gameplay HUD */
+.score-hud { position: absolute; z-index: 4; top: 64px; left: 15px; display: flex; gap: 7px; pointer-events: none; }
+.score-hud > div { min-width: 76px; padding: 8px 11px; border: 1px solid #ffffff2c; border-radius: 6px; background: #07120fd9; backdrop-filter: blur(8px); display: grid; gap: 4px; }
+.score-caption { color: #9ab09e; font-size: 8px; letter-spacing: 1.2px; }
+.score-hud strong { font: 700 21px 'Barlow Condensed', sans-serif; color: #f4f7f3; }
+.score-hud small { font: 500 10px 'DM Sans', sans-serif; color: #9ab09e; }
+.game-message { position: absolute; z-index: 5; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 10px 15px; border: 1px solid #ffffff35; border-radius: 6px; background: #07120fd9; color: #f4f7f3; font-size: 12px; font-weight: 700; text-align: center; letter-spacing: .5px; pointer-events: none; max-width: calc(100% - 30px); }
+.game-controls { position: absolute; z-index: 6; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; }
+.game-controls button { border: 0; border-radius: 6px; padding: 12px 17px; cursor: pointer; font-size: 10px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 5px 18px #0005; }
+.start-btn { color: #10200f; background: #a9d56b; }
+.hit-btn { color: #fff; background: #c34d40; min-width: 125px; }
+.hit-btn:disabled { opacity: .48; cursor: not-allowed; }
+.hit-btn span { margin-left: 8px; padding: 3px 5px; border: 1px solid #ffffff70; border-radius: 3px; font-size: 8px; }
+.game-message.result-good { border-color: #a9d56b; }
+.game-message.result-bad { border-color: #e17868; }
+@media (max-width: 650px) {
+  .score-hud { top: 60px; left: 9px; gap: 4px; }
+  .score-hud > div { min-width: 65px; padding: 7px 8px; }
+  .score-hud strong { font-size: 18px; }
+  .game-controls { bottom: 15px; width: calc(100% - 24px); }
+  .game-controls button { flex: 1; padding: 13px 10px; }
+  .game-message { top: 48%; font-size: 11px; }
+}
+
+
+/* Stage 2.1: immersive full-screen game layout */
+html, body { width: 100%; height: 100%; overflow: hidden; }
+#app { height: 100vh; height: 100dvh; min-height: 0; overflow: hidden; }
+.topbar { position: absolute; z-index: 20; top: 0; left: 0; right: 0; height: 48px; background: #06100dbd; backdrop-filter: blur(10px); }
+.layout { width: 100%; height: 100%; margin: 0; }
+.intro, .features, footer { display: none !important; }
+.game-panel { position: absolute; inset: 0; border: 0; border-radius: 0; box-shadow: none; background: #17271d; }
+.game-toolbar { position: absolute; z-index: 10; top: 56px; left: 16px; right: 16px; min-height: 0; padding: 0; border: 0; pointer-events: none; }
+.match-label { display: none; }
+.view-switch { pointer-events: auto; margin-left: auto; background: #07120fc9; border: 1px solid #ffffff26; }
+.view-btn { padding: 9px 12px; }
+#scene-wrap { position: absolute; inset: 0; height: 100%; min-height: 0; }
+#scene { position: absolute; inset: 0; }
+.scene-hud { top: 58px; left: 16px; right: auto; gap: 7px; }
+.scene-hud .hud-pill:nth-child(2) { margin-left: 0; }
+.scene-help { display: none; }
+.score-hud { top: 102px; left: 16px; }
+.game-message { top: 78px; left: 50%; transform: translateX(-50%); width: max-content; max-width: min(520px, calc(100% - 30px)); white-space: normal; }
+.game-controls { bottom: max(24px, env(safe-area-inset-bottom)); }
+.bottom-bar { position: absolute; z-index: 10; left: 16px; bottom: 18px; min-height: 0; padding: 0; border: 0; background: transparent; pointer-events: none; }
+.bottom-bar > div { display: none; }
+.reset-btn { pointer-events: auto; margin: 0; background: #07120fbb; }
+.fullscreen-btn { border-color: #ffffff20; }
+@media (max-width: 650px) {
+  .topbar { height: 42px; padding: 0 12px; }
+  .brand { font-size: 16px; }
+  .top-status { font-size: 7px; }
+  .game-toolbar { top: 50px; left: 8px; right: 8px; }
+  .view-switch { gap: 2px; padding: 3px; }
+  .view-btn { padding: 8px 7px; font-size: 9px; }
+  .scene-hud { top: 52px; left: 9px; }
+  .score-hud { top: 91px; left: 9px; }
+  .game-message { top: 145px; font-size: 10px; }
+  .game-controls { bottom: max(18px, env(safe-area-inset-bottom)); }
+  .bottom-bar { display: none; }
+}
+
+.pace-control { display:flex; align-items:center; gap:7px; padding:5px 8px; color:#9ab09e; background:#07120fc9; border:1px solid #ffffff26; border-radius:5px; font-size:8px; letter-spacing:1px; font-weight:700; pointer-events:auto; }
+.pace-control select { color:#eef5ef; background:#14251d; border:1px solid #ffffff2c; border-radius:4px; padding:6px 8px; font:600 10px 'DM Sans',sans-serif; outline:none; }
+.pace-control option { background:#14251d; color:#eef5ef; }
+@media(max-width:650px){ .pace-control { font-size:7px; gap:4px; padding:4px; } .pace-control select { max-width:116px; font-size:9px; padding:6px 4px; } }
+
+
+/* Stage 2.2 startup and bowling pace controls */
+.pace-control {
+  display: flex; align-items: center; gap: 7px; padding: 5px 8px;
+  color: #9ab09e; background: #07120fc9; border: 1px solid #ffffff26;
+  border-radius: 5px; font-size: 8px; letter-spacing: 1px;
+  font-weight: 700; pointer-events: auto;
+}
+.pace-control select {
+  color: #eef5ef; background: #14251d; border: 1px solid #ffffff2c;
+  border-radius: 4px; padding: 6px 8px; font: 600 10px 'DM Sans', sans-serif;
+}
+.pace-control option { background: #14251d; color: #eef5ef; }
+.loading.boot-error { color: #ffd2ca; background: #25110f; padding: 24px; text-align: center; }
+@media (max-width: 650px) {
+  .pace-control { font-size: 7px; gap: 4px; padding: 4px; }
+  .pace-control select { max-width: 110px; font-size: 9px; padding: 6px 4px; }
+  .fullscreen-btn { display: none; }
+}
+
+
+/* STAGE 3 — polished online room and toss experience */
+.lobby-shell, .room-shell, .match-ready-shell {
+  position: fixed; z-index: 40; inset: 0; display: grid; place-items: center;
+  padding: 24px; background: linear-gradient(115deg, rgba(3,12,9,.90), rgba(4,18,12,.76));
+  backdrop-filter: blur(9px);
+}
+.hidden { display: none !important; }
+.lobby-card, .room-card, .match-ready-card {
+  width: min(560px, 100%); padding: clamp(22px, 4vw, 38px);
+  border: 1px solid rgba(192,224,190,.20); border-radius: 18px;
+  background: linear-gradient(145deg, #10241bfa, #08150ff7);
+  box-shadow: 0 30px 100px #0009, inset 0 1px #ffffff0b;
+}
+.lobby-kicker { color: #a9d56b; font-size: 9px; letter-spacing: 2px; font-weight: 800; display: flex; align-items: center; gap: 9px; }
+.lobby-heading { margin-top: 18px; font: 800 clamp(36px, 8vw, 54px)/.95 'Barlow Condensed',sans-serif; letter-spacing: 1px; color: #f4f8f2; }
+.lobby-heading span { color: #a9d56b; }
+.lobby-subtitle { color: #9eafa3; font-size: 12px; line-height: 1.75; margin: 12px 0 24px; max-width: 450px; }
+.field-label, .room-code-label { display: block; margin: 0 0 8px; color: #8da394; font-size: 9px; letter-spacing: 1.5px; font-weight: 800; }
+.lobby-input { width: 100%; min-width: 0; padding: 14px 15px; color: #eff7ef; background: #07140e; border: 1px solid #ffffff22; border-radius: 8px; outline: none; font: 600 13px 'DM Sans',sans-serif; }
+.lobby-input:focus { border-color: #a9d56b; box-shadow: 0 0 0 3px #a9d56b18; }
+.lobby-input::placeholder { color: #63776a; }
+.lobby-actions { display: grid; gap: 10px; margin-top: 13px; }
+.primary-action, .secondary-action { border: 0; border-radius: 7px; padding: 14px 17px; font-size: 10px; letter-spacing: 1.2px; font-weight: 900; cursor: pointer; transition: transform .15s, opacity .15s; }
+.primary-action { color: #10200f; background: linear-gradient(135deg,#b8e477,#91c953); box-shadow: 0 7px 20px #9acb6828; }
+.secondary-action { color: #e7f0e8; background: #1a3025; border: 1px solid #ffffff20; }
+.primary-action:hover, .secondary-action:hover { transform: translateY(-1px); }
+.primary-action:disabled, .secondary-action:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.join-row { display: grid; grid-template-columns: 1fr 100px; gap: 9px; }
+.code-input { text-transform: uppercase; letter-spacing: 3px; }
+.lobby-feedback { min-height: 30px; margin-top: 16px; color: #9db5a4; font-size: 10px; line-height: 1.5; }
+.lobby-feedback.error { color: #ff9f91; }
+.connection-line { display: flex; align-items: center; gap: 8px; color: #7f9587; font-size: 8px; letter-spacing: 1.2px; margin-top: 8px; }
+.connection-dot { width: 7px; height: 7px; border-radius: 50%; background: #d79b4f; box-shadow: 0 0 10px #d79b4f66; display: inline-block; flex: 0 0 auto; }
+.connection-dot.connected { background: #9bd45c; box-shadow: 0 0 10px #9bd45c88; }
+.room-card { width: min(680px,100%); }
+.room-topline { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.text-action { color: #a8b7ad; background: transparent; border: 0; cursor: pointer; font-size: 9px; letter-spacing: 1px; font-weight: 800; }
+.room-code-label { margin-top: 25px; }
+.room-code-row { display: flex; align-items: center; gap: 15px; }
+.room-code-row strong { color: #f2f7f1; font: 800 clamp(35px,8vw,48px) 'Barlow Condensed',sans-serif; letter-spacing: 8px; }
+.copy-action { color: #b7df83; background: #1b3224; border: 1px solid #9acb6840; border-radius: 5px; padding: 9px 11px; font-size: 8px; font-weight: 800; letter-spacing: 1px; cursor: pointer; }
+.players-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 23px 0; }
+.player-slot { min-width: 0; padding: 15px; border-radius: 9px; border: 1px solid #ffffff19; background: #ffffff07; display: grid; gap: 8px; }
+.slot-label { color: #8da394; font-size: 8px; letter-spacing: 1.3px; font-weight: 800; }
+.player-slot strong { color: #f0f5f0; font: 700 22px 'Barlow Condensed',sans-serif; overflow-wrap: anywhere; }
+.slot-status { color: #9acb68; font-size: 9px; }
+.room-stage { min-height: 245px; padding: 22px; border-radius: 12px; border: 1px solid #a9d56b24; background: radial-gradient(circle at 50% 0%,#27432b88,#0b1a12 70%); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.stage-number { color: #9acb68; font-size: 8px; letter-spacing: 2px; font-weight: 900; }
+.room-stage h2, .match-ready-card h2 { margin: 9px 0 6px; color: #f2f7f1; font: 800 30px 'Barlow Condensed',sans-serif; letter-spacing: .6px; }
+.room-stage p { max-width: 440px; margin: 0 auto 15px; color: #9eafa3; font-size: 10px; line-height: 1.7; }
+.toss-coin { width: 62px; height: 62px; margin: 12px auto; display: grid; place-items: center; border-radius: 50%; border: 4px solid #e8cb7d; color: #5b4314; background: radial-gradient(circle at 35% 30%,#fff2bd,#c99b37 70%); box-shadow: 0 5px 25px #d7ac4a44, inset 0 0 0 3px #fff5c6; font: 900 25px 'Barlow Condensed',sans-serif; }
+.toss-coin.flipping { animation: coinFlip .7s ease-in-out infinite; }
+@keyframes coinFlip { 0%{transform:rotateY(0) scale(1)} 50%{transform:rotateY(900deg) scale(.72)} 100%{transform:rotateY(1800deg) scale(1)} }
+.toss-result { color: #d4efaa; min-height: 22px; margin: 2px 0 12px; font-size: 11px; font-weight: 900; letter-spacing: 1px; }
+.decision-actions { width: min(380px,100%); display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.ready-actions { width: 100%; }
+.role-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 17px; }
+.role-summary div { padding: 12px; background: #ffffff08; border: 1px solid #ffffff18; border-radius: 7px; display: grid; gap: 5px; }
+.role-summary span { color: #8fa596; font-size: 8px; letter-spacing: 1px; }
+.role-summary strong { color: #f1f6ef; font: 700 18px 'Barlow Condensed',sans-serif; }
+.ready-status { margin-top: 9px !important; }
+.room-footer { margin-top: 18px; color: #819588; font-size: 8px; letter-spacing: 1.2px; display: flex; align-items: center; gap: 8px; }
+.match-ready-card { text-align: center; width: min(620px,100%); }
+.match-ready-card .lobby-kicker { justify-content: center; }
+.match-ready-card h2 { font-size: clamp(34px,7vw,48px); margin-top: 20px; }
+.match-ready-card > p { color: #9eafa3; font-size: 11px; line-height: 1.7; }
+.innings-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 25px 0; text-align: left; }
+.innings-preview div { display: grid; gap: 7px; padding: 17px; border-radius: 9px; background: #ffffff08; border: 1px solid #ffffff1b; }
+.innings-preview span { color: #a9d56b; font-size: 8px; letter-spacing: 1.2px; font-weight: 900; }
+.innings-preview strong { color: #f3f7f1; font: 700 22px 'Barlow Condensed',sans-serif; }
+.innings-preview small { color: #8da394; font-size: 9px; }
+.next-stage-note { padding: 12px; border-radius: 6px; background: #a9d56b10; color: #a9d56b; font-size: 8px; letter-spacing: 1px; line-height: 1.6; }
+.stage3-hidden-controls { display: none !important; }
+@media(max-width:600px) {
+  .lobby-shell,.room-shell,.match-ready-shell { padding: 12px; }
+  .lobby-card,.room-card,.match-ready-card { padding: 22px 17px; border-radius: 14px; }
+  .players-grid,.innings-preview { gap: 7px; }
+  .player-slot { padding: 11px; }
+  .room-stage { padding: 17px 12px; }
+  .room-code-row { justify-content: space-between; }
+  .room-code-row strong { letter-spacing: 5px; }
+}
+
+
+/* Stage 4 responsive viewport fit: toss/lobby cards scroll internally on short screens */
+.lobby-shell,.room-shell,.match-ready-shell {
+  min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  align-items: center; box-sizing: border-box;
+  padding: max(12px, env(safe-area-inset-top)) 14px max(12px, env(safe-area-inset-bottom));
+}
+.lobby-card,.room-card,.match-ready-card { max-height: calc(100dvh - 24px); overflow-y: auto; }
+.room-stage { min-height: 0; }
+.toss-coin { flex: 0 0 auto; }
+@media (max-height: 720px) {
+  .room-card { padding-top: 16px; padding-bottom: 16px; }
+  .room-code-label { margin-top: 12px; }
+  .players-grid { margin: 12px 0; }
+  .room-stage { padding: 12px; }
+  .toss-coin { width: 48px; height: 48px; margin: 5px auto; }
+  .room-stage h2 { font-size: 25px; margin: 5px 0; }
+  .room-stage p { margin-bottom: 8px; }
+}
+@media (max-width: 420px) {
+  .room-code-row { flex-wrap: wrap; }
+  .room-code-row strong { font-size: 34px; letter-spacing: 4px; }
+  .copy-action { padding: 8px; }
+  .players-grid { grid-template-columns: 1fr 1fr; }
+  .player-slot strong { font-size: 18px; }
+  .decision-actions { grid-template-columns: 1fr; }
+}
+.live-match-shell {
+  position: fixed; z-index: 45; inset: 0; display: grid; place-items: center;
+  padding: max(10px,env(safe-area-inset-top)) 12px max(10px,env(safe-area-inset-bottom));
+  overflow-y: auto; background: linear-gradient(120deg,#06110df2,#0a1b13eF);
+  box-sizing: border-box;
+}
+.live-match-card {
+  width: min(760px,100%); max-height: calc(100dvh - 20px); overflow-y: auto;
+  border: 1px solid #b2d98c30; border-radius: 16px; padding: clamp(15px,3vw,28px);
+  background: linear-gradient(145deg,#10251b,#07150e); box-shadow: 0 25px 90px #0009;
+}
+.live-match-header { display:flex; align-items:center; justify-content:space-between; gap:15px; }
+.live-match-header h2 { margin:6px 0 0; color:#f2f7f1; font:800 clamp(22px,5vw,34px) 'Barlow Condensed',sans-serif; }
+.live-match-score { display:grid; text-align:right; }
+.live-match-score strong { color:#c3ec8c; font:800 34px 'Barlow Condensed',sans-serif; }
+.live-match-score span { color:#91a598; font-size:8px; letter-spacing:1px; }
+.innings-strip { display:flex; justify-content:space-between; margin:16px 0; padding:10px 12px; border-radius:6px; background:#ffffff0a; color:#b9df8a; font-size:9px; font-weight:900; letter-spacing:1px; }
+.live-match-body { text-align:center; }
+.live-status { color:#f1f6ef; font:800 19px 'Barlow Condensed',sans-serif; letter-spacing:1px; }
+.ball-stage { height:clamp(145px,28vh,230px); margin:14px 0; border-radius:12px; overflow:hidden; position:relative; background:radial-gradient(ellipse at 50% 40%,#527d43,#244b30 55%,#153522); border:1px solid #ffffff17; }
+.pitch-lane { position:absolute; left:35%; right:35%; top:8%; bottom:8%; border-radius:45%; background:linear-gradient(90deg,#ad9868,#d4c08b,#ad9868); border-left:2px solid #eee0b1; border-right:2px solid #eee0b1; }
+.pitch-crease { position:absolute; left:10%; right:10%; height:2px; background:#fff3d0; }
+.crease-top { top:17%; }.crease-bottom { bottom:17%; }
+.live-ball { position:absolute; z-index:3; top:18%; left:50%; width:13px; height:13px; border-radius:50%; background:radial-gradient(circle at 30% 30%,#ffb2a2,#b51f2a 60%,#641019); box-shadow:0 2px 8px #0009; transform:translate(-50%,-50%); opacity:0; }
+.live-ball.moving { opacity:1; animation:ballFlight var(--flight-duration,1600ms) cubic-bezier(.18,.6,.35,1) forwards; }
+@keyframes ballFlight { 0%{top:16%;transform:translate(-50%,-50%) scale(.7)} 55%{top:56%;transform:translate(-50%,-50%) scale(1.15)} 100%{top:83%;transform:translate(-50%,-50%) scale(1.35)} }
+.live-stumps { position:absolute; bottom:7%; left:50%; transform:translateX(-50%); display:flex; gap:4px; }
+.live-stumps i { display:block; height:20px; width:3px; border-radius:2px; background:#f7f0dc; }
+.bowler-controls,.batter-controls { display:grid; justify-items:center; gap:10px; }
+.bowler-controls label { color:#a8c49d; display:grid; gap:6px; font-size:9px; font-weight:900; letter-spacing:1px; }
+.bowler-controls select { min-width:190px; padding:10px; border-radius:6px; color:#f1f6ef; background:#142a1d; border:1px solid #ffffff2b; }
+.bowler-controls small,.batter-controls small { max-width:420px; color:#91a598; font-size:9px; line-height:1.6; }
+.hit-action { padding:17px 30px; border:0; border-radius:9px; background:linear-gradient(135deg,#b8e477,#91c953); color:#10200f; font-weight:1000; letter-spacing:1px; cursor:pointer; }
+.hit-action:disabled { opacity:.45; cursor:not-allowed; }
+.hit-action kbd { margin-left:10px; padding:4px 7px; border-radius:4px; background:#10200f22; }
+.last-result { min-height:28px; margin:13px 0 4px; color:#d2e8bd; font-size:11px; font-weight:800; }
+.live-match-footer { display:flex; justify-content:space-between; align-items:center; border-top:1px solid #ffffff16; padding-top:12px; color:#92a798; font-size:8px; letter-spacing:1px; }
+@media(max-height:650px) {
+ .live-match-card { padding:12px; }
+ .ball-stage { height:120px; margin:8px 0; }
+ .live-match-score strong { font-size:27px; }
+ .live-status { font-size:16px; }
+ .innings-strip { margin:8px 0; }
+}
+
+/* STAGE 5 — live 3D multiplayer scene, compact non-blocking scoreboard. */
+.live-match-shell {
+  display:block; inset:54px 12px auto; padding:0; overflow:visible;
+  background:transparent; backdrop-filter:none; pointer-events:none;
+}
+.live-match-card {
+  width:min(620px,calc(100vw - 24px)); max-height:none; overflow:visible;
+  margin:0 auto; padding:10px 14px; border-radius:10px;
+  background:rgba(5,18,12,.88); backdrop-filter:blur(10px);
+  box-shadow:0 8px 30px #0006; pointer-events:auto;
+}
+.live-match-header h2 { font-size:23px; }
+.live-match-score strong { font-size:27px; }
+.innings-strip { margin:7px 0; padding:7px 10px; }
+.live-match-body { display:grid; grid-template-columns:1fr auto; gap:8px 14px; align-items:center; text-align:left; }
+.live-status { font-size:15px; }
+.ball-stage { display:none !important; }
+.bowler-controls,.batter-controls { display:flex; flex-direction:row; justify-content:flex-end; gap:8px; }
+.bowler-controls label { display:flex; align-items:center; gap:6px; }
+.bowler-controls select { min-width:95px; padding:7px; }
+.bowler-controls small,.batter-controls small { display:none; }
+.primary-action,.hit-action { padding:10px 13px; font-size:9px; }
+.last-result { grid-column:1/-1; min-height:15px; margin:0; font-size:10px; }
+.live-match-footer { grid-column:1/-1; padding-top:6px; }
+#scene-wrap { z-index:1; }
+@media(max-width:650px) {
+ .live-match-shell { inset:48px 7px auto; }
+ .live-match-card { width:calc(100vw - 14px); padding:8px 10px; }
+ .live-match-header h2 { font-size:19px; }
+ .live-match-score strong { font-size:23px; }
+ .live-status { font-size:13px; }
+ .live-match-body { gap:6px; }
+ .bowler-controls select { min-width:80px; }
+ .primary-action,.hit-action { padding:9px 10px; }
+}
+
+
+/* Stage 5.1 — mobile-first action dock and player-controlled camera. */
+.mobile-action-dock { display:none; }
+@media (max-width: 650px) {
+  .mobile-action-dock {
+    position: fixed; z-index: 70; left: 12px; right: 12px;
+    bottom: max(14px, env(safe-area-inset-bottom));
+    display: flex; justify-content: center; gap: 10px;
+    pointer-events: auto;
+  }
+  .mobile-game-action {
+    flex: 1; min-height: 58px; border: 0; border-radius: 13px;
+    font: 900 15px 'DM Sans', sans-serif; letter-spacing: 1px;
+    box-shadow: 0 8px 28px #0008; touch-action: manipulation;
+  }
+  .mobile-game-action.bowl { color:#10200f; background:linear-gradient(135deg,#b8e477,#91c953); }
+  .mobile-game-action.hit { color:#10200f; background:linear-gradient(135deg,#b8e477,#91c953); }
+  .mobile-game-action:disabled { opacity:.42; }
+  .mobile-game-action.hidden { display:none !important; }
+  .live-match-shell { inset:48px 7px auto; }
+  .live-match-card { width:calc(100vw - 14px); }
+  body:has(#mobileActionDock:not(.hidden)) .game-controls { bottom: max(92px, calc(env(safe-area-inset-bottom) + 82px)); }
+}
+
+
+/* Stage 5.2: keep camera controls clear of the match HUD. */
+.game-toolbar { z-index: 55 !important; top: 58px !important; right: 14px !important; left: auto !important; width: auto !important; }
+.view-switch { margin-left: 0 !important; box-shadow: 0 8px 24px #0007; }
+@media (max-width: 650px) {
+  .game-toolbar { top: 52px !important; right: 8px !important; }
+  .view-btn { padding: 8px 8px; font-size: 9px; }
+  .pace-control { display: none !important; }
+  .live-match-card { max-height: min(43dvh, 330px); overflow-y: auto; }
+  .mobile-action-dock { z-index: 80; }
+}
+
+
+/* Non-blocking falling-paper celebration: no modal and no buttons to dismiss. */
+.paper-celebration {
+  position: fixed; z-index: 115; inset: 0; overflow: hidden;
+  pointer-events: none; background: transparent;
+}
+.paper-celebration i {
+  position: absolute; top: -24px; width: 9px; height: 15px;
+  border-radius: 1px; opacity: .95;
+  background: #b9e879;
+  animation: paperFall 3.2s linear forwards;
+}
+.paper-celebration i:nth-child(3n) { background:#f4d36b; width:7px; height:12px; }
+.paper-celebration i:nth-child(3n + 1) { background:#f5f4df; width:10px; height:8px; }
+.paper-celebration i:nth-child(4n) { background:#e87965; }
+.paper-celebration.victory i { width:11px; height:16px; }
+@keyframes paperFall {
+  0% { transform:translate3d(0,-4vh,0) rotate(0deg); opacity:0; }
+  8% { opacity:1; }
+  100% { transform:translate3d(var(--drift, 30px),110vh,0) rotate(var(--spin,720deg)); opacity:.12; }
+}
+
+
+/* STAGE 5.3 — side scoreboard, mobile landscape and on-field score effects. */
+.live-match-shell {
+  inset: 64px auto auto 14px !important;
+  width: min(350px, calc(100vw - 28px));
+  padding: 0 !important;
+  display: block;
+  pointer-events: none;
+  background: transparent !important;
+}
+.live-match-card {
+  width: 100% !important;
+  max-height: min(76dvh, 620px) !important;
+  overflow-y: auto !important;
+  margin: 0 !important;
+  pointer-events: auto;
+  background: rgba(5,18,12,.91) !important;
+  border: 1px solid #b2d98c55;
+  box-shadow: 0 12px 34px #0007;
+}
+.game-toolbar { z-index: 65 !important; }
+.score-hud { z-index: 30; }
+.score-flash {
+  position: fixed; z-index: 110; inset: 0; display: grid; place-items: center;
+  pointer-events: none; opacity: 0; visibility: hidden;
+}
+.score-flash span {
+  color: #f7ffe9; font: 1000 clamp(100px,24vw,250px)/.9 'Barlow Condensed',sans-serif;
+  -webkit-text-stroke: 3px #142d1b;
+  text-shadow: 0 10px 0 #234b2c, 0 18px 55px #000b;
+  transform: scale(.45) rotate(-12deg);
+}
+.score-flash.show { visibility: visible; animation: scoreFlashShake .95s ease-out both; }
+.score-flash.show span { animation: scoreFlashText .95s cubic-bezier(.16,.82,.24,1) both; }
+@keyframes scoreFlashShake {
+  0% { opacity:0; transform:translate(0,0); }
+  12% { opacity:1; transform:translate(-7px,3px); }
+  22% { transform:translate(7px,-3px); }
+  32% { transform:translate(-5px,2px); }
+  42% { transform:translate(4px,-2px); }
+  100% { opacity:0; transform:translate(0,0); }
+}
+@keyframes scoreFlashText {
+  0% { opacity:0; transform:scale(.35) rotate(-15deg); }
+  18% { opacity:1; transform:scale(1.08) rotate(4deg); }
+  32% { transform:scale(1) rotate(0); }
+  100% { opacity:0; transform:scale(1.25) translateY(-24px); }
+}
+.rotate-overlay { display:none; }
+@media (max-width: 800px) and (orientation: landscape) {
+  .live-match-shell { left:8px !important; top:50px !important; width:min(285px,34vw) !important; }
+  .live-match-card { max-height:calc(100dvh - 120px) !important; padding:8px 10px !important; }
+  .live-match-header h2 { font-size:17px !important; }
+  .live-match-score strong { font-size:23px !important; }
+  .innings-strip { margin:5px 0 !important; padding:5px 7px !important; }
+  .live-match-body { gap:5px !important; }
+  .live-status { font-size:11px !important; }
+  .last-result { font-size:10px !important; }
+  .game-toolbar { top:8px !important; right:8px !important; }
+  .view-switch { gap:3px; padding:4px; }
+  .view-btn { padding:7px 8px !important; font-size:9px !important; }
+  .pace-control { display:none !important; }
+  .score-hud {
+    display:flex !important; top:58px !important; left:auto !important; right:8px !important;
+    gap:5px !important; z-index:32;
+  }
+  .score-hud > div { min-width:57px !important; padding:6px 7px !important; }
+  .score-hud strong { font-size:17px !important; }
+  .score-caption { font-size:7px !important; }
+  .scene-hud { top:auto !important; bottom:82px !important; left:8px !important; }
+  .mobile-action-dock { left:8px !important; right:8px !important; bottom:8px !important; }
+  .mobile-game-action { min-height:48px !important; }
+  .game-controls { bottom:68px !important; }
+}
+@media (max-width: 800px) and (orientation: portrait) {
+  .rotate-overlay {
+    display:grid; position:fixed; z-index:300; inset:0; place-items:center;
+    padding:24px; background:linear-gradient(145deg,#07150e,#183b26);
+    color:#f3f8ed; text-align:center;
+  }
+  .rotate-card { width:min(360px,100%); }
+  .rotate-phone { font-size:64px; color:#b7e879; animation:phoneTurn 1.6s ease-in-out infinite; }
+  .rotate-card h2 { font:900 30px 'Barlow Condensed',sans-serif; letter-spacing:1px; }
+  .rotate-card p { color:#c1d1c3; line-height:1.6; font-size:14px; }
+  .rotate-card button {
+    margin-top:16px; border:0; border-radius:10px; padding:13px 18px;
+    background:#a9d96c; color:#102014; font-weight:900; letter-spacing:1px;
+  }
+  @keyframes phoneTurn { 0%,15% { transform:rotate(0deg); } 65%,100% { transform:rotate(-90deg); } }
+}
+@media (max-width: 800px) and (orientation: landscape) {
+  .rotate-overlay { display:none !important; }
+}
+
+
+@keyframes sceneShake {
+  0%,100% { transform:translate3d(0,0,0); }
+  15% { transform:translate3d(-5px,2px,0); }
+  30% { transform:translate3d(5px,-2px,0); }
+  45% { transform:translate3d(-4px,1px,0); }
+  60% { transform:translate3d(3px,-1px,0); }
+  75% { transform:translate3d(-2px,1px,0); }
+}
+#scene-wrap.screen-shake { animation:sceneShake .62s ease-in-out; }
+@media (min-width:801px) {
+  .score-hud { left:auto !important; right:14px !important; top:120px !important; }
+}
+
+
+/* STAGE 5.4 — gameplay-first layout. One scoreboard, role-specific controls. */
+.game-toolbar {
+  position:fixed !important;
+  top:82px !important; right:14px !important; left:auto !important;
+  width:auto !important; z-index:90 !important;
+  min-height:0 !important; padding:0 !important;
+  background:transparent !important; border:0 !important;
+  pointer-events:none;
+}
+.game-toolbar .match-label,
+.game-toolbar .legacy-pace-control,
+.legacy-score-hud,
+.scene-hud,
+.scene-help,
+.bottom-bar,
+.game-controls { display:none !important; }
+.game-toolbar .view-switch {
+  pointer-events:auto; display:flex; align-items:center; gap:4px;
+  padding:5px; border:1px solid #ffffff24; border-radius:12px;
+  background:rgba(7,19,13,.91); backdrop-filter:blur(12px);
+  box-shadow:0 8px 26px #0005;
+}
+.game-toolbar .view-btn {
+  min-height:38px; padding:8px 12px; font-size:11px;
+  white-space:nowrap;
+}
+.game-toolbar .fullscreen-btn { margin-left:3px; }
+.live-match-shell {
+  position:fixed !important;
+  top:82px !important; left:14px !important; right:auto !important;
+  width:292px !important; max-width:calc(100vw - 28px) !important;
+  inset-inline:auto !important; padding:0 !important;
+  background:transparent !important; pointer-events:none !important;
+  z-index:75 !important;
+}
+.live-match-card {
+  width:100% !important; max-height:calc(100dvh - 105px) !important;
+  overflow:auto !important; margin:0 !important; padding:13px 15px !important;
+  border:1px solid #b6db8b45 !important; border-radius:13px !important;
+  background:rgba(5,18,12,.91) !important;
+  box-shadow:0 12px 34px #0007 !important;
+  backdrop-filter:blur(13px); pointer-events:auto !important;
+}
+.live-match-header { align-items:center; gap:8px !important; }
+.live-match-header h2 { font-size:22px !important; line-height:1 !important; }
+.live-match-score strong { font-size:29px !important; }
+.live-match-score span { font-size:9px !important; }
+.innings-strip { margin:9px 0 !important; padding:7px 9px !important; font-size:10px !important; }
+.live-match-body {
+  display:flex !important; flex-direction:column !important;
+  align-items:stretch !important; gap:8px !important; text-align:left !important;
+}
+.live-status { min-height:0 !important; font-size:12px !important; line-height:1.25 !important; }
+.ball-stage { display:none !important; }
+.bowler-controls {
+  display:flex; flex-direction:row !important; align-items:center !important;
+  justify-content:space-between !important; gap:8px !important;
+}
+.bowler-controls label {
+  display:flex; flex:1; flex-direction:column; align-items:flex-start !important;
+  gap:4px !important; font-size:8px !important; letter-spacing:.8px;
+}
+.bowler-controls select {
+  width:100% !important; min-width:0 !important; min-height:38px;
+  padding:7px 9px !important; font-size:11px !important;
+}
+.bowler-controls .primary-action { min-height:38px; padding:8px 12px !important; }
+.batter-controls { display:flex; justify-content:flex-start !important; }
+.batter-controls .hit-action { min-height:40px; padding:9px 15px !important; }
+.bowler-controls small,.batter-controls small { display:none !important; }
+.last-result { min-height:14px !important; margin:0 !important; font-size:10px !important; }
+.live-match-footer { padding-top:8px !important; font-size:9px !important; }
+.mobile-action-dock { display:none !important; }
+.paper-celebration { z-index:115 !important; }
+#scene-wrap { z-index:1; }
+#resetView { position:fixed; z-index:60; left:14px; bottom:14px; }
+
+/* No duplicated bowling speed control in the camera toolbar. The bowler's
+   speed selector exists only inside the match card. */
+@media (min-width:801px) {
+  .live-match-shell { width:292px !important; }
+  .score-hud { display:none !important; }
+}
+
+/* Landscape phones and small tablets: keep the field dominant. */
+@media (max-width:800px) and (orientation:landscape) {
+  .game-toolbar { top:7px !important; right:7px !important; }
+  .game-toolbar .view-switch { gap:2px; padding:3px; }
+  .game-toolbar .view-btn { min-height:32px; padding:6px 8px !important; font-size:9px !important; }
+  .live-match-shell {
+    top:7px !important; left:7px !important; width:218px !important;
+    max-width:34vw !important;
+  }
+  .live-match-card {
+    max-height:calc(100dvh - 58px) !important;
+    padding:8px 9px !important; border-radius:10px !important;
+  }
+  .live-match-header .lobby-kicker { font-size:8px !important; letter-spacing:1.1px !important; }
+  .live-match-header h2 { font-size:16px !important; }
+  .live-match-score strong { font-size:21px !important; }
+  .live-match-score span { font-size:8px !important; }
+  .innings-strip { margin:5px 0 !important; padding:5px 7px !important; font-size:8px !important; }
+  .live-status { font-size:10px !important; }
+  .bowler-controls { gap:5px !important; }
+  .bowler-controls label { font-size:7px !important; }
+  .bowler-controls select { min-height:32px !important; font-size:9px !important; }
+  .bowler-controls .primary-action { min-height:32px !important; padding:6px 7px !important; font-size:8px !important; }
+  .batter-controls .hit-action { min-height:34px !important; padding:7px 10px !important; font-size:9px !important; }
+  .last-result { font-size:8px !important; }
+  .live-match-footer { padding-top:5px !important; font-size:7px !important; }
+  #resetView { left:7px; bottom:7px; padding:7px 9px; font-size:9px; }
+}
+
+/* On touch devices, the only large action button sits at bottom-centre.
+   The speed remains in the compact bowler card; batters never see it. */
+@media (max-width:800px) and (orientation:landscape) and (pointer:coarse) {
+  .mobile-action-dock:not(.hidden) {
+    display:flex !important; position:fixed !important; z-index:100 !important;
+    left:50% !important; right:auto !important; bottom:max(8px,env(safe-area-inset-bottom)) !important;
+    width:min(260px,42vw) !important; transform:translateX(-50%);
+    gap:8px !important; pointer-events:auto !important;
+  }
+  .mobile-game-action {
+    min-height:43px !important; max-height:48px !important;
+    padding:8px 12px !important; font-size:12px !important;
+    border-radius:11px !important;
+  }
+  #bowlNowBtn,#liveHitBtn { display:none !important; }
+  #resetView { bottom:7px !important; }
+}
+
+/* Portrait phones show only the rotate instruction; match HUD is not layered
+   behind it or left visible as overlapping controls. */
+@media (max-width:800px) and (orientation:portrait) {
+  .live-match-shell,.game-toolbar,#scene-wrap,#resetView { visibility:hidden !important; }
+}
+
+
+/* STAGE 5.5 — transparent camera palette, details toggle and single mobile action. */
+.game-message { display:none !important; } /* removes the large waiting banner over the pitch */
+.game-toolbar .view-switch {
+  gap:3px !important; padding:4px !important;
+  border:1px solid rgba(230,255,235,.18) !important;
+  border-radius:13px !important;
+  background:rgba(7,18,13,.24) !important;
+  box-shadow:0 4px 16px rgba(0,0,0,.12) !important;
+  backdrop-filter:blur(7px) saturate(115%) !important;
+}
+.game-toolbar .view-btn {
+  color:rgba(246,255,246,.82) !important;
+  border:1px solid rgba(235,255,240,.18) !important;
+  border-radius:9px !important;
+  background:rgba(6,20,13,.12) !important;
+  box-shadow:none !important;
+  font-weight:700 !important;
+}
+.game-toolbar .view-btn:hover { background:rgba(255,255,255,.12) !important; }
+.game-toolbar .view-btn.active {
+  color:#eaffd7 !important;
+  border-color:rgba(184,228,119,.6) !important;
+  background:rgba(159,207,102,.22) !important;
+}
+.game-toolbar .details-toggle { border-style:dashed !important; }
+.toolbar-divider {
+  display:block; width:1px; height:23px; margin:0 3px;
+  background:rgba(255,255,255,.22);
+}
+.live-match-shell.details-hidden .live-match-card {
+  opacity:0 !important; visibility:hidden !important; pointer-events:none !important;
+  transform:translateX(-8px); transition:opacity .18s ease,transform .18s ease,visibility .18s;
+}
+.live-match-card { transition:opacity .18s ease,transform .18s ease,visibility .18s; }
+#resetView { background:rgba(6,20,13,.2) !important; border:1px solid #ffffff24 !important; }
+
+/* A touch device always gets one large role-aware action button at bottom-centre.
+   The opposite role's button is already hidden by the match state logic. */
+@media (pointer:coarse) and (max-height:650px) {
+  .mobile-action-dock:not(.hidden) {
+    display:flex !important; position:fixed !important; z-index:140 !important;
+    left:50% !important; right:auto !important; bottom:max(9px,env(safe-area-inset-bottom)) !important;
+    width:min(300px,46vw) !important; transform:translateX(-50%) !important;
+    justify-content:center !important; pointer-events:auto !important;
+  }
+  .mobile-game-action:not(.hidden) {
+    display:block !important; width:100% !important; min-height:48px !important;
+    max-height:54px !important; border-radius:12px !important;
+    font-size:13px !important; letter-spacing:1px !important;
+    box-shadow:0 8px 25px rgba(0,0,0,.28) !important;
+  }
+  #bowlNowBtn,#liveHitBtn { display:none !important; }
+  .live-match-shell { top:7px !important; left:7px !important; width:min(235px,35vw) !important; }
+  .live-match-card { max-height:calc(100dvh - 72px) !important; }
+  .game-toolbar { top:7px !important; right:7px !important; }
+  .game-toolbar .view-switch { max-width:65vw; flex-wrap:wrap; justify-content:flex-end; }
+  .game-toolbar .view-btn { min-height:30px !important; padding:5px 7px !important; font-size:9px !important; }
+  .toolbar-divider { height:18px; }
+  #resetView { display:none !important; }
+}
+@media (max-width:800px) and (orientation:landscape) and (pointer:coarse) {
+  .mobile-action-dock:not(.hidden) { width:min(280px,38vw) !important; }
+  .live-match-shell { width:min(220px,32vw) !important; }
+}
+@media (max-width:800px) and (orientation:portrait) {
+  .game-toolbar,.live-match-shell,#scene-wrap { visibility:hidden !important; }
+}
+
+
+/* STAGE 5.6 — transparent live-match information glass panel.
+   Keep contrast with a light blur and subtle outline, not an opaque card. */
+.live-match-card {
+  background:rgba(5,18,12,.28) !important;
+  border:1px solid rgba(225,255,228,.22) !important;
+  box-shadow:0 8px 26px rgba(0,0,0,.10) !important;
+  backdrop-filter:blur(5px) saturate(112%) !important;
+  -webkit-backdrop-filter:blur(5px) saturate(112%) !important;
+}
+.innings-strip {
+  background:rgba(225,255,228,.075) !important;
+  border:1px solid rgba(225,255,228,.08) !important;
+}
+.live-match-card .live-match-header,
+.live-match-card .live-status,
+.live-match-card .last-result,
+.live-match-card .live-match-footer {
+  text-shadow:0 1px 3px rgba(0,0,0,.55);
+}
+.live-match-card select,
+.live-match-card .primary-action,
+.live-match-card .hit-action {
+  backdrop-filter:blur(8px);
+}
+
+/* Stage 6.6 visual polish and compact sound control */
+.sound-toggle { border-color: #a9d56b45; color: #c8e7a1; min-width: 76px; }
+.sound-toggle[aria-pressed="false"] { color: #9cad9f; border-color: #ffffff18; }
+#scene-wrap { background: radial-gradient(ellipse at 50% 35%, #527b54 0%, #1a3827 60%, #0b1a13 100%); }
+#scene canvas { filter: saturate(1.08) contrast(1.035); }
+@media (max-width: 650px) {
+  .sound-toggle { min-width: 0; padding: 7px 6px; }
+}

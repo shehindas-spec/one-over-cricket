@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07120f" />
+    <title>One Over Cricket</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <a class="brand" href="#"><span class="brand-mark">🏏</span> ONE OVER <b>CRICKET</b></a>
+        <div class="top-status"><span class="live-dot"></span> LIVE 3D MATCH <span class="version">STAGE 6.8</span></div>
+      </header>
+
+      <main class="layout">
+        <section class="intro">
+          <div class="eyebrow">THE MATCH STARTS HERE</div>
+          <h1>Own the <span>moment.</span></h1>
+          <p>A first look at your 3D cricket ground. Switch perspectives to preview the batting and bowling views.</p>
+        </section>
+
+
+        <section class="lobby-shell" id="lobbyShell">
+          <div class="lobby-card">
+            <div class="lobby-kicker"><span class="live-dot"></span> ONLINE MULTIPLAYER</div>
+            <div class="lobby-heading">ONE OVER <span>ARENA</span></div>
+            <p class="lobby-subtitle">Create a private room or join your friend's match. The toss and team decision are synchronized for both players.</p>
+            <label class="field-label" for="playerName">YOUR PLAYER NAME</label>
+            <input id="playerName" class="lobby-input" maxlength="16" placeholder="Enter your name" autocomplete="nickname" />
+            <div class="lobby-actions">
+              <button id="createRoomBtn" class="primary-action">CREATE ROOM</button>
+              <div class="join-row">
+                <input id="roomCodeInput" class="lobby-input code-input" maxlength="6" placeholder="ROOM CODE" autocomplete="off" />
+                <button id="joinRoomBtn" class="secondary-action">JOIN</button>
+              </div>
+            </div>
+            <div class="lobby-feedback" id="lobbyFeedback" aria-live="polite">Connecting to match server…</div>
+            <div class="connection-line"><span id="connectionDot" class="connection-dot"></span><span id="connectionText">Connecting…</span></div>
+          </div>
+        </section>
+
+        <section class="room-shell hidden" id="roomShell">
+          <div class="room-card">
+            <div class="room-topline"><span class="lobby-kicker">PRIVATE MATCH ROOM</span><button id="leaveRoomBtn" class="text-action">LEAVE ROOM</button></div>
+            <div class="room-code-label">SHARE THIS CODE WITH YOUR FRIEND</div>
+            <div class="room-code-row"><strong id="roomCodeDisplay">------</strong><button id="copyRoomCodeBtn" class="copy-action">COPY CODE</button></div>
+            <div class="players-grid">
+              <div class="player-slot"><span class="slot-label">PLAYER 01 · HOST</span><strong id="playerOneName">Waiting…</strong><span id="playerOneStatus" class="slot-status">Room creator</span></div>
+              <div class="player-slot"><span class="slot-label">PLAYER 02 · GUEST</span><strong id="playerTwoName">Waiting for friend</strong><span id="playerTwoStatus" class="slot-status">Not connected</span></div>
+            </div>
+            <div class="room-stage" id="roomStage">
+              <div class="stage-number">PRE-MATCH</div>
+              <h2 id="roomStageTitle">Waiting for opponent</h2>
+              <p id="roomStageText">Send the six-character room code to your friend. The toss starts when both players are connected.</p>
+              <div class="toss-coin" id="tossCoin" aria-hidden="true"><span>O</span></div>
+              <div class="toss-result" id="tossResult"></div>
+              <div class="decision-actions hidden" id="decisionActions">
+                <button id="chooseBatBtn" class="primary-action">BAT FIRST</button>
+                <button id="chooseFieldBtn" class="secondary-action">BOWL FIRST</button>
+              </div>
+              <div class="ready-actions hidden" id="readyActions">
+                <div class="role-summary" id="roleSummary"></div>
+                <button id="readyBtn" class="primary-action">I'M READY</button>
+                <p id="readyStatus" class="ready-status">Both players must confirm before the match setup is complete.</p>
+              </div>
+              <button id="startTossBtn" class="primary-action hidden">FLIP THE COIN</button>
+            </div>
+            <div class="room-footer"><span class="connection-dot connected"></span> LIVE ROOM · CHANGES SYNC TO BOTH PLAYERS</div>
+          </div>
+        </section>
+
+
+        <section class="live-match-shell hidden" id="liveMatchShell">
+          <div class="live-match-card">
+            <header class="live-match-header">
+              <div><span class="lobby-kicker">LIVE MULTIPLAYER MATCH</span><h2 id="liveMatchTitle">ONE OVER ARENA</h2></div>
+              <div class="live-match-score"><strong id="liveScore">0/0</strong><span id="liveOvers">0.0 / 1 OVER</span></div>
+            </header>
+            <div class="innings-strip">
+              <span id="inningsLabel">1ST INNINGS</span><span id="targetLabel">TARGET —</span>
+            </div>
+            <div class="live-match-body">
+              <div class="live-status" id="liveStatus">Waiting for the bowler…</div>
+              <div class="ball-stage" id="ballStage" aria-hidden="true"></div>
+              <div class="bowler-controls hidden" id="bowlerControls">
+                <label>YOUR DELIVERY SPEED
+                  <select id="livePace"><option value="slow">SLOW</option><option value="medium" selected>MEDIUM</option><option value="fast">FAST</option></select>
+                </label>
+                <button id="bowlNowBtn" class="primary-action">BOWL DELIVERY</button>
+                <small>Only you, as the bowler, can see this speed selector.</small>
+              </div>
+              <div class="batter-controls hidden" id="batterControls">
+                <button id="liveHitBtn" class="hit-action">PLAY SHOT <kbd>SPACE</kbd></button>
+                <small>Watch the delivery and time your shot. A mistimed shot can lose your wicket.</small>
+              </div>
+              <div class="last-result" id="lastResult">Match ready</div>
+              <div class="live-match-footer"><span id="roleLabel">ROLE</span><button id="leaveMatchBtn" class="text-action">LEAVE MATCH</button></div>
+            </div>
+          </div>
+          <div class="mobile-action-dock hidden" id="mobileActionDock">
+            <button id="mobileBowlBtn" class="mobile-game-action bowl">BOWL DELIVERY</button>
+            <button id="mobileHitBtn" class="mobile-game-action hit">TAP TO BAT</button>
+          </div>
+          <div class="paper-celebration" id="paperCelebration" aria-hidden="true"></div>
+        </section>
+
+        <section class="match-ready-shell hidden" id="matchReadyShell">
+          <div class="match-ready-card">
+            <div class="lobby-kicker"><span class="live-dot"></span> BOTH PLAYERS READY</div>
+            <h2>THE TOSS IS COMPLETE.</h2>
+            <p id="matchReadyText">Your innings order is confirmed.</p>
+            <div class="innings-preview">
+              <div><span>1ST INNINGS</span><strong id="firstInningsName">—</strong><small>Batting first</small></div>
+              <div><span>2ND INNINGS</span><strong id="secondInningsName">—</strong><small>Chasing target</small></div>
+            </div>
+            <div class="next-stage-note">MATCH SETUP SAVED · LIVE BALL-BY-BALL MULTIPLAYER IS THE NEXT BUILD STAGE</div>
+          </div>
+        </section>
+
+        <div class="score-flash" id="scoreFlash" aria-hidden="true"><span id="scoreFlashText">4</span></div>
+        <div class="rotate-overlay" id="rotateOverlay">
+          <div class="rotate-card">
+            <div class="rotate-phone">↻</div>
+            <h2>ROTATE YOUR PHONE</h2>
+            <p>Turn your phone sideways to play One Over Cricket in landscape mode.</p>
+            <button id="rotateFullscreenBtn" type="button">ENTER FULL SCREEN</button>
+          </div>
+        </div>
+
+        <section class="game-panel">
+          <div class="game-toolbar">
+            <div class="match-label">
+              <span class="mini-label">EXHIBITION GROUND</span>
+              <strong>ONE OVER ARENA</strong>
+            </div>
+            <div class="view-switch" role="group" aria-label="Camera view">
+              <button class="view-btn details-toggle" id="detailsToggleBtn" type="button" aria-expanded="true">Details</button>
+              <span class="toolbar-divider" aria-hidden="true"></span>
+              <button class="view-btn active" id="battingBtn">Batter</button>
+              <button class="view-btn" id="bowlingBtn">Bowler</button>
+              <button class="view-btn" id="sideViewBtn" type="button">Side</button>
+              <button class="view-btn" id="backViewBtn" type="button">Back</button>
+              <button class="view-btn sound-toggle" id="soundToggleBtn" type="button" aria-pressed="true">Sound: On</button>
+              <label class="pace-control legacy-pace-control" aria-hidden="true">
+                <select id="paceSelect" aria-label="Legacy bowling pace selector">
+                  <option value="fast">Fast · 150 km/h</option>
+                  <option value="medium" selected>Medium · 125 km/h</option>
+                  <option value="slow">Slow · 90 km/h</option>
+                </select>
+              </label>
+              <button class="view-btn fullscreen-btn" id="fullscreenBtn" type="button">⛶ Full screen</button>
+            </div>
+          </div>
+
+          <div id="scene-wrap">
+            <div class="scene-hud">
+              <span class="hud-pill"><span class="live-dot"></span> ONE OVER MATCH</span>
+              <span class="hud-pill" id="cameraLabel">BATTER'S END</span>
+            </div>
+            <div class="scene-help">Drag to look around · Scroll to zoom</div>
+            <div class="score-hud legacy-score-hud" aria-hidden="true">
+              <div><span class="score-caption">YOUR INNINGS</span><strong id="scoreValue">0/0</strong></div>
+              <div><span class="score-caption">OVERS</span><strong id="oversValue">0.0 <small>/ 1.0</small></strong></div>
+              <div><span class="score-caption">LAST BALL</span><strong id="lastBallValue">—</strong></div>
+            </div>
+            <div id="scene"></div>
+            <div class="game-message" id="gameMessage">Press START OVER when you're ready</div>
+            <div class="game-controls stage3-hidden-controls">
+              <button id="startOverBtn" class="start-btn">START OVER</button>
+              <button id="hitBtn" class="hit-btn" disabled>HIT <span>SPACE</span></button>
+            </div>
+            <div class="loading" id="loading">Preparing the ground…</div>
+          </div>
+
+          <div class="bottom-bar">
+            <div><span class="bottom-label">GAMEPLAY</span><strong>TIMING-BASED BATTING</strong></div>
+            <div><span class="bottom-label">GROUND STATUS</span><strong><span class="status-dot"></span> READY FOR PLAY</strong></div>
+            <button id="resetView" class="reset-btn">Reset camera ↺</button>
+          </div>
+        </section>
+
+        <section class="features">
+          <article><span class="feature-icon">01</span><div><strong>Watch the delivery</strong><p>Follow the ball as it travels down the pitch.</p></div></article>
+          <article><span class="feature-icon">02</span><div><strong>Time your shot</strong><p>Press SPACE or tap HIT as the ball reaches you.</p></div></article>
+          <article><span class="feature-icon">03</span><div><strong>Complete the over</strong><p>Six balls, wickets, runs and a final score.</p></div></article>
+        </section>
+      </main>
+      <footer>ONE OVER CRICKET <span>·</span> STAGE 01 — THE GROUND</footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+    <script>
+      window.addEventListener('error', function (event) {
+        var loader = document.getElementById('loading');
+        if (loader) {
+          loader.textContent = 'Game could not start: ' + (event.message || 'JavaScript error');
+          loader.classList.add('boot-error');
+          loader.style.opacity = '1';
+          loader.style.pointerEvents = 'auto';
+        }
+      });
+    </script>
+  </body>
+</html>
